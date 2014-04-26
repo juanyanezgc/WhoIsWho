@@ -4,61 +4,71 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class TeamMember implements Parcelable {
-    private String mName;
-    private String mJobTitle;
-    private String mBiography;
-    private String mImageURI;
+    private int id;
+    private String name;
+    private String jobTitle;
+    private String biography;
+    private String imageURI;
 
     public TeamMember() {
 
     };
 
-    public TeamMember(String name, String jobTitle, String biography, String imagePath) {
-        mName = name;
-        mJobTitle = jobTitle;
-        mBiography = biography;
-        mImageURI = imagePath;
+    public TeamMember(int id, String name, String jobTitle, String biography, String imageURI) {
+        this.id = id;
+        this.name = name;
+        this.jobTitle = jobTitle;
+        this.biography = biography;
+        this.imageURI = imageURI;
     }
 
     private TeamMember(Parcel in) {
-        mName = in.readString();
-        mJobTitle = in.readString();
-        mBiography = in.readString();
-        mImageURI = in.readString();
+        id =  in.readInt();
+        name = in.readString();
+        jobTitle = in.readString();
+        biography = in.readString();
+        imageURI = in.readString();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
-        return mName;
+        return name;
     }
 
     public void setName(String name) {
-        mName = name;
+        this.name = name;
     }
 
     public String getJobTitle() {
-        return mJobTitle;
+        return jobTitle;
     }
 
     public void setJobTitle(String jobTitle) {
-        mJobTitle = jobTitle;
+        this.jobTitle = jobTitle;
     }
 
     public String getBiography() {
-        return mBiography;
+        return biography;
     }
 
     public void setBiography(String biography) {
-        mBiography = biography;
+        this.biography = biography;
     }
 
     public String getImageURI() {
-        return mImageURI;
+        return imageURI;
     }
 
     public void setImageURI(String imageURI) {
-        mImageURI = imageURI;
+        this.imageURI = imageURI;
     }
-
 
     public static final Parcelable.Creator<TeamMember> CREATOR
             = new Parcelable.Creator<TeamMember>() {
@@ -79,10 +89,11 @@ public class TeamMember implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(mName);
-        parcel.writeString(mJobTitle);
-        parcel.writeString(mBiography);
-        parcel.writeString(mImageURI);
+        parcel.writeInt(id);
+        parcel.writeString(name);
+        parcel.writeString(jobTitle);
+        parcel.writeString(biography);
+        parcel.writeString(imageURI);
     }
 
 

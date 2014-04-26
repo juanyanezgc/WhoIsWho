@@ -25,6 +25,8 @@ public class HtmlParser {
         Element teamMembersSection = htmlDocument.body().getElementById(TEAM_MEMBERS_SECTION_KEY);
         Elements teamMembersHtml = teamMembersSection.getElementsByClass(TEAM_MEMBER_KEY);
 
+        int id = 0;
+
         for (Element teamMemberHtml : teamMembersHtml) {
 
             String imageURI = teamMemberHtml.getElementsByAttribute(TEAM_MEMBER_IMAGE_URI_KEY).attr(TEAM_MEMBER_IMAGE_URI_KEY);
@@ -34,9 +36,10 @@ public class HtmlParser {
             String jobTitle = paragraphElements.get(0).text();
             String biography = paragraphElements.get(1).text();
 
-            TeamMember teamMember = new TeamMember(name, jobTitle, biography, imageURI);
+            TeamMember teamMember = new TeamMember(id,name, jobTitle, biography, imageURI);
             teamMembers.add(teamMember);
 
+            id++;
         }
 
 

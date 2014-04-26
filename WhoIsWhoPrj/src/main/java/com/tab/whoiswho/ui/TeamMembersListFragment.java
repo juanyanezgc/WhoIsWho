@@ -1,6 +1,9 @@
 package com.tab.whoiswho.ui;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -8,6 +11,7 @@ import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.tab.whoiswho.ddbb.DBManager;
 import com.tab.whoiswho.model.TeamMember;
 import com.tab.whoiswho.parser.HtmlParser;
 import com.tab.whoiswho.utils.Debug;
@@ -18,6 +22,7 @@ import org.jsoup.nodes.Document;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.List;
+
 import static com.tab.whoiswho.utils.Constants.TEAM_MEMBER_LIST_URL;
 
 public class TeamMembersListFragment extends ListFragment {
@@ -85,16 +90,26 @@ public class TeamMembersListFragment extends ListFragment {
 
         @Override
         protected List<TeamMember> doInBackground(Void... params) {
+            ConnectivityManager connMgr = (ConnectivityManager) mTeamMembersFragmentWeakReference.get().getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+            DBManager dbManager = new DBManager(mTeamMembersFragmentWeakReference.get().getActivity());
 
-            try {
-                Debug.logInfo("Downloading team member html");
-                Document document = Jsoup.connect(TEAM_MEMBER_LIST_URL).get();
-                return HtmlParser.parseTeamMembers(document);
-            } catch (IOException e) {
-                Debug.logError(e.getMessage());
+            if (networkInfo != null && networkInfo.isConnected()) {
+                try {
+                    Debug.logInfo("Downloading team member html");
+                    Document document = Jsoup.connect(TEAM_MEMBER_LIST_URL).get();
+                    List<TeamMember> teamMembers = HtmlParser.parseTeamMembers(document);
+                    dbManager.saveTeamMembers(teamMembers);
+                    return teamMembers;
+
+                } catch (IOException e) {
+                    Debug.logError(e.getMessage());
+                    return dbManager.getTeamMembers();
+                }
+            } else {
+                return dbManager.getTeamMembers();
             }
 
-            return null;
         }
 
         @Override
