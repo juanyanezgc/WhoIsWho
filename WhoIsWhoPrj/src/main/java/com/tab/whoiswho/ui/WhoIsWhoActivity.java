@@ -26,7 +26,8 @@ public class WhoIsWhoActivity extends ActionBarActivity implements TeamMembersLi
     @Override
     public void onTeamMemberPressed(TeamMember teamMember) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-
+        transaction.addToBackStack(null);
+        transaction.replace(R.id.container,TeamMemberDetailsFragment.newInstance(teamMember));
+        transaction.commitAllowingStateLoss();
     }
 }

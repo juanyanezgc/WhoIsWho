@@ -4,5 +4,6 @@
     <string name="app_name">Who\'s Who</string>
     <string name="title_activity_who_is_who">@string/app_name</string>
     <string name="dummy_text">Lorem ipsum dolor sit amet</string>
+    <string name="details_fragment_biography">Biography</string>
 
 </resources>
