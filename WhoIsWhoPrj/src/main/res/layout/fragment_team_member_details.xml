@@ -2,32 +2,43 @@
 
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/row_team_member_list"/>
+    <include layout="@layout/row_team_member_list" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="@dimen/gap_normal"
+        android:layout_marginRight="@dimen/gap_normal"
+        android:layout_marginTop="5dp"
         android:background="@color/divider_color" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/gap_small"
+        android:paddingLeft="@dimen/gap_normal"
+        android:paddingRight="@dimen/gap_normal"
+        android:paddingTop="@dimen/gap_small"
         android:text="@string/details_fragment_biography"
-        android:textSize="24sp" />
+        android:textSize="@dimen/biography_text_size"
+        android:textStyle="bold"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/txtBiography"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/gap_normal"
+            android:paddingRight="@dimen/gap_normal"
+            tools:text="@string/dummy_text_large" />
 
     </ScrollView>
 </LinearLayout>

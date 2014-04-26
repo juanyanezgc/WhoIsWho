@@ -5,16 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingBottom="@dimen/team_member_row_vertical_padding"
-    android:paddingLeft="@dimen/team_member_row_horizontal_padding"
-    android:paddingRight="@dimen/team_member_row_horizontal_padding"
-    android:paddingTop="@dimen/team_member_row_vertical_padding">
+    android:paddingBottom="@dimen/gap_small"
+    android:paddingLeft="@dimen/gap_normal"
+    android:paddingRight="@dimen/gap_normal"
+    android:paddingTop="@dimen/gap_small">
 
 
     <com.tab.whoiswho.ui.RoundedImageView
         android:id="@+id/imgPhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/photo_size"
+        android:layout_height="@dimen/photo_size"
+        android:adjustViewBounds="true"
         android:layout_gravity="center_vertical"
         android:layout_marginRight="@dimen/team_member_row_image_margin"
         android:src="@drawable/photo_placeholder" />
@@ -35,7 +36,8 @@
             android:id="@+id/txtJobTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="@string/dummy_text" />
+            tools:text="@string/dummy_text"
+            android:textStyle="bold"/>
     </LinearLayout>
 
 </LinearLayout>

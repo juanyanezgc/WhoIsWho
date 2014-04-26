@@ -4,6 +4,7 @@
     <string name="app_name">Who\'s Who</string>
     <string name="title_activity_who_is_who">@string/app_name</string>
     <string name="dummy_text">Lorem ipsum dolor sit amet</string>
+    <string name="dummy_text_large">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ullamcorper orci neque, sed sagittis ipsum elementum at. Integer viverra iaculis quam, ac lacinia nibh lacinia sit amet. Sed varius ullamcorper ipsum sit amet interdum. Sed quis feugiat urna. Mauris laoreet arcu sed erat eleifend, et porttitor enim laoreet. Mauris luctus ut diam in dignissim. Cras ac bibendum felis. Quisque facilisis sagittis risus. Sed nec elementum neque. Etiam nec sagittis urna, sit amet condimentum libero.</string>
     <string name="details_fragment_biography">Biography</string>
 
 </resources>

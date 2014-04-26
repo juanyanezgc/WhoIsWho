@@ -26,23 +26,23 @@ public class TeamMemberDetailsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view  = inflater.inflate(R.layout.fragment_team_member_details, container, false);
+        View view = inflater.inflate(R.layout.fragment_team_member_details, container, false);
 
         TextView txtName = (TextView) view.findViewById(R.id.txtName);
         TextView txtJobTitle = (TextView) view.findViewById(R.id.txtJobTitle);
+        TextView txtBiography = (TextView) view.findViewById(R.id.txtBiography);
         ImageView imgPhoto = (ImageView) view.findViewById(R.id.imgPhoto);
+
 
         TeamMember teamMember = getArguments().getParcelable(TEAM_MEMBER_KEY);
 
         txtName.setText(teamMember.getName());
         txtJobTitle.setText(teamMember.getJobTitle());
+        txtBiography.setText(teamMember.getBiography());
 
 
         return view;
     }
-
-
-
 
 
 }
