@@ -1,0 +1,5 @@
+<resources>
+    <dimen name="team_member_row_horizontal_padding">10dp</dimen>
+    <dimen name="team_member_row_vertical_padding">6dp</dimen>
+    <dimen name="team_member_row_image_margin">10dp</dimen>
+</resources>
