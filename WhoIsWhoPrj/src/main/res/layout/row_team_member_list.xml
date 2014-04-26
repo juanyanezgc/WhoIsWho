@@ -11,7 +11,7 @@
     android:paddingTop="@dimen/team_member_row_vertical_padding">
 
 
-    <ImageView
+    <com.tab.whoiswho.ui.RoundedImageView
         android:id="@+id/imgPhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
