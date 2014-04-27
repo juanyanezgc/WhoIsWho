@@ -15,8 +15,6 @@ public class HtmlParser {
     public static final String TEAM_MEMBERS_SECTION_KEY = "users";
     public static final String TEAM_MEMBER_KEY = "col";
     public static final String TEAM_MEMBER_IMAGE_URI_KEY = "src";
-    public static final String TEAM_MEMBER_NAME_KEY = "h3";
-    public static final String TEAM_MEMBER_PARAGRAPH_KEY = "p";
 
     public static List<TeamMember> parseTeamMembers(Document htmlDocument) {
         Debug.logInfo("Parsing team member html");
@@ -29,12 +27,12 @@ public class HtmlParser {
 
         for (Element teamMemberHtml : teamMembersHtml) {
 
-            String imageURI = teamMemberHtml.getElementsByAttribute(TEAM_MEMBER_IMAGE_URI_KEY).attr(TEAM_MEMBER_IMAGE_URI_KEY);
-            String name = teamMemberHtml.getElementsByTag(TEAM_MEMBER_NAME_KEY).text();
+            Elements teamMemberElements = teamMemberHtml.getAllElements();
 
-            Elements paragraphElements =  teamMemberHtml.getElementsByTag(TEAM_MEMBER_PARAGRAPH_KEY);
-            String jobTitle = paragraphElements.get(0).text();
-            String biography = paragraphElements.get(1).text();
+            String imageURI = teamMemberElements.get(2).attr(TEAM_MEMBER_IMAGE_URI_KEY);
+            String name = teamMemberElements.get(3).text();
+            String jobTitle = teamMemberElements.get(4).text();
+            String biography = teamMemberElements.get(5).text();
 
             TeamMember teamMember = new TeamMember(id,name, jobTitle, biography, imageURI);
             teamMembers.add(teamMember);
