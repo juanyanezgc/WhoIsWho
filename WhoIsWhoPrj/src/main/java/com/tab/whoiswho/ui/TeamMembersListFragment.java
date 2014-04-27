@@ -33,6 +33,9 @@ import static com.tab.whoiswho.utils.Constants.TEAM_MEMBER_LIST_URL;
 
 public class TeamMembersListFragment extends ListFragment {
 
+    private static final int HTML_ERROR = 1;
+    private static final int NETWORK_ERROR = 2;
+
     public interface TeamMembersListFragmentListener {
         public void onTeamMemberPressed(TeamMember teamMember);
     }
@@ -114,10 +117,10 @@ public class TeamMembersListFragment extends ListFragment {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case 1:
+                case HTML_ERROR:
                     Toast.makeText(getActivity(), R.string.parsing_error, Toast.LENGTH_LONG).show();
                     break;
-                case 2:
+                case NETWORK_ERROR:
                     Toast.makeText(getActivity(), R.string.no_internet, Toast.LENGTH_LONG).show();
                     break;
             }
@@ -142,11 +145,11 @@ public class TeamMembersListFragment extends ListFragment {
 
                 } catch (IOException e) {
                     Debug.logError(e.getMessage());
-                    mErrorHandler.sendEmptyMessage(1);
+                    mErrorHandler.sendEmptyMessage(HTML_ERROR);
                     return dbManager.getTeamMembers();
                 }
             } else {
-                mErrorHandler.sendEmptyMessage(2);
+                mErrorHandler.sendEmptyMessage(NETWORK_ERROR);
                 return dbManager.getTeamMembers();
             }
 
