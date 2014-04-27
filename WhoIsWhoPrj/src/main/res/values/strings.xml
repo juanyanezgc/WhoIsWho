@@ -6,5 +6,8 @@
     <string name="dummy_text">Lorem ipsum dolor sit amet</string>
     <string name="dummy_text_large">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ullamcorper orci neque, sed sagittis ipsum elementum at. Integer viverra iaculis quam, ac lacinia nibh lacinia sit amet. Sed varius ullamcorper ipsum sit amet interdum. Sed quis feugiat urna. Mauris laoreet arcu sed erat eleifend, et porttitor enim laoreet. Mauris luctus ut diam in dignissim. Cras ac bibendum felis. Quisque facilisis sagittis risus. Sed nec elementum neque. Etiam nec sagittis urna, sit amet condimentum libero.</string>
     <string name="details_fragment_biography">Biography</string>
+    <string name="parsing_error">Html retrieve error</string>
+    <string name="no_internet">No internet connection, displaying last team members saved</string>
+    <string name="menu_reload">Reload</string>
 
 </resources>

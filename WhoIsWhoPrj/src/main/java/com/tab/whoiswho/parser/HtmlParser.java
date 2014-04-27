@@ -34,7 +34,7 @@ public class HtmlParser {
             String jobTitle = teamMemberElements.get(4).text();
             String biography = teamMemberElements.get(5).text();
 
-            TeamMember teamMember = new TeamMember(id,name, jobTitle, biography, imageURI);
+            TeamMember teamMember = new TeamMember(id, name, jobTitle, biography, imageURI);
             teamMembers.add(teamMember);
 
             id++;

@@ -6,11 +6,18 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ListFragment;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.tab.whoiswho.R;
 import com.tab.whoiswho.ddbb.DBManager;
 import com.tab.whoiswho.model.TeamMember;
 import com.tab.whoiswho.parser.HtmlParser;
@@ -20,7 +27,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 import static com.tab.whoiswho.utils.Constants.TEAM_MEMBER_LIST_URL;
@@ -38,7 +44,8 @@ public class TeamMembersListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mParseTeamMembersTask = new ParseTeamMembersTask(this);
+        setHasOptionsMenu(true);
+        mParseTeamMembersTask = new ParseTeamMembersTask();
         mParseTeamMembersTask.execute();
     }
 
@@ -68,6 +75,28 @@ public class TeamMembersListFragment extends ListFragment {
 
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_reload, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (mParseTeamMembersTask != null && mParseTeamMembersTask.getStatus() == AsyncTask.Status.RUNNING) {
+            mParseTeamMembersTask.cancel(true);
+        }
+
+        setListShown(false);
+
+        mParseTeamMembersTask = new ParseTeamMembersTask();
+        mParseTeamMembersTask.execute();
+
+        return true;
+    }
+
+    @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         if (mListener != null) {
             mListener.onTeamMemberPressed((TeamMember) getListAdapter().getItem(position));
@@ -77,22 +106,31 @@ public class TeamMembersListFragment extends ListFragment {
     private void fillListData(List<TeamMember> teamMembers) {
         ListAdapter adapter = new TeamMemberListAdapter(getActivity(), teamMembers);
         setListAdapter(adapter);
+        setListShown(true);
     }
 
-    private static class ParseTeamMembersTask extends AsyncTask<Void, Void, List<TeamMember>> {
+    private Handler mErrorHandler = new Handler() {
 
-        private WeakReference<TeamMembersListFragment> mTeamMembersFragmentWeakReference;
-
-        public ParseTeamMembersTask(TeamMembersListFragment teamMembersListFragment) {
-            mTeamMembersFragmentWeakReference = new WeakReference<TeamMembersListFragment>(teamMembersListFragment);
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    Toast.makeText(getActivity(), R.string.parsing_error, Toast.LENGTH_LONG).show();
+                    break;
+                case 2:
+                    Toast.makeText(getActivity(), R.string.no_internet, Toast.LENGTH_LONG).show();
+                    break;
+            }
         }
+    };
 
+    private class ParseTeamMembersTask extends AsyncTask<Void, Void, List<TeamMember>> {
 
         @Override
         protected List<TeamMember> doInBackground(Void... params) {
-            ConnectivityManager connMgr = (ConnectivityManager) mTeamMembersFragmentWeakReference.get().getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+            ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-            DBManager dbManager = new DBManager(mTeamMembersFragmentWeakReference.get().getActivity());
+            DBManager dbManager = new DBManager(getActivity());
 
             if (networkInfo != null && networkInfo.isConnected()) {
                 try {
@@ -104,9 +142,11 @@ public class TeamMembersListFragment extends ListFragment {
 
                 } catch (IOException e) {
                     Debug.logError(e.getMessage());
+                    mErrorHandler.sendEmptyMessage(1);
                     return dbManager.getTeamMembers();
                 }
             } else {
+                mErrorHandler.sendEmptyMessage(2);
                 return dbManager.getTeamMembers();
             }
 
@@ -115,8 +155,8 @@ public class TeamMembersListFragment extends ListFragment {
         @Override
         protected void onPostExecute(List<TeamMember> teamMembers) {
 
-            if (mTeamMembersFragmentWeakReference.get() != null) {
-                mTeamMembersFragmentWeakReference.get().fillListData(teamMembers);
+            if (getActivity() != null) {
+                fillListData(teamMembers);
             }
 
         }
