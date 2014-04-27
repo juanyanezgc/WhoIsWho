@@ -73,6 +73,19 @@ public class DBManager {
 
     }
 
+    public void updateTeamMemberImageURI(TeamMember teamMember){
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        ContentValues args = new ContentValues();
+
+        args.put(IMAGE_URI_COLUMN, teamMember.getImageURI());
+
+        db.update(TEAM_MEMBER_TABLE_NAME, args, ID_COLUMN + "=" + "'" + teamMember.getId()
+                + "'", null);
+
+        db.close();
+    }
+
     public List<TeamMember> getTeamMembers() {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 

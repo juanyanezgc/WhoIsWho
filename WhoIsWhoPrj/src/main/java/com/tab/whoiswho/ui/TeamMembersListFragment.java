@@ -115,7 +115,7 @@ public class TeamMembersListFragment extends ListFragment {
         @Override
         protected void onPostExecute(List<TeamMember> teamMembers) {
 
-            if (mTeamMembersFragmentWeakReference != null && teamMembers != null) {
+            if (mTeamMembersFragmentWeakReference.get() != null) {
                 mTeamMembersFragmentWeakReference.get().fillListData(teamMembers);
             }
 

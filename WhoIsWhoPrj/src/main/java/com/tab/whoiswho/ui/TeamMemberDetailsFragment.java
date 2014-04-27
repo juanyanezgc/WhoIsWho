@@ -1,5 +1,6 @@
 package com.tab.whoiswho.ui;
 
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -34,11 +35,14 @@ public class TeamMemberDetailsFragment extends Fragment {
         ImageView imgPhoto = (ImageView) view.findViewById(R.id.imgPhoto);
 
 
+
         TeamMember teamMember = getArguments().getParcelable(TEAM_MEMBER_KEY);
 
         txtName.setText(teamMember.getName());
         txtJobTitle.setText(teamMember.getJobTitle());
         txtBiography.setText(teamMember.getBiography());
+        imgPhoto.setTag(teamMember.getId());
+        new DownloadImageTask(getActivity(),teamMember,imgPhoto).execute(teamMember.getImageURI());
 
 
         return view;
