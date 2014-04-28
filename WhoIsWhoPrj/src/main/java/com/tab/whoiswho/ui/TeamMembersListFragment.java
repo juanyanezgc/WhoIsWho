@@ -61,7 +61,9 @@ public class TeamMembersListFragment extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (savedInstanceState == null) {
-            downloadTeamMembers();
+            if (mTeamMembers == null) {
+                downloadTeamMembers();
+            }
         } else {
             mTeamMembers = savedInstanceState.getParcelableArrayList(TEAM_MEMBERS_KEY);
             if (mTeamMembers == null) {
@@ -111,9 +113,6 @@ public class TeamMembersListFragment extends ListFragment {
         }
 
         setListShown(false);
-
-        ImageLoader imageLoader = WhoIsWhoApplication.getImageLoader();
-        imageLoader.clearCache();
         downloadTeamMembers();
 
         return true;
@@ -171,6 +170,8 @@ public class TeamMembersListFragment extends ListFragment {
                     Document document = Jsoup.connect(TEAM_MEMBER_LIST_URL).get();
                     List<TeamMember> teamMembers = HtmlParser.parseTeamMembers(document);
                     dbManager.saveTeamMembers(teamMembers);
+                    ImageLoader imageLoader = WhoIsWhoApplication.getImageLoader();
+                    imageLoader.clearCache();
                     return teamMembers;
 
                 } catch (IOException e) {
