@@ -3,10 +3,8 @@ package com.tab.whoiswho.logic;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 
 import com.tab.whoiswho.R;
@@ -169,7 +167,7 @@ public class ImageLoader {
                 }
 
                 if (mImage != null) {
-                    Animation fadeIn = AnimationUtils.loadAnimation(mImageView.getContext(),R.anim.fade_in);
+                    Animation fadeIn = AnimationUtils.loadAnimation(mImageView.getContext(),R.anim.fade_in_image);
                     mImageView.setImageBitmap(mImage);
                     mImageView.setAnimation(fadeIn);
                     fadeIn.start();

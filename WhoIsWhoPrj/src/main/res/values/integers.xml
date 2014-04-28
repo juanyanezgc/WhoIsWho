@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <integer name="fade_image_anim_time">500</integer>
     <integer name="fade_anim_time">500</integer>
+    <integer name="splash_screen_time">1500</integer>
 </resources>

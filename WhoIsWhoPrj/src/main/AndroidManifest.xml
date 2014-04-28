@@ -3,8 +3,8 @@
     package="com.tab.whoiswho">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".logic.WhoIsWhoApplication"
@@ -13,13 +13,19 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.tab.whoiswho.ui.WhoIsWhoActivity"
-            android:label="@string/title_activity_who_is_who">
+            android:name=".ui.SplashScreenActivity"
+            android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.tab.whoiswho.ui.WhoIsWhoActivity"
+            android:label="@string/title_activity_who_is_who">
+
         </activity>
 
     </application>

@@ -4,4 +4,5 @@
     <dimen name="team_member_row_image_margin">15dp</dimen>
     <dimen name="biography_text_size">24sp</dimen>
     <dimen name="photo_size">60dp</dimen>
+    <dimen name="splash_title_text_size">26sp</dimen>
 </resources>
