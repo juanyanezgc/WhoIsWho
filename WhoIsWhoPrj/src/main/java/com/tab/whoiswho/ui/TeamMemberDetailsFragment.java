@@ -10,11 +10,10 @@ import android.widget.TextView;
 
 import com.tab.whoiswho.R;
 import com.tab.whoiswho.logic.ImageLoader;
+import com.tab.whoiswho.logic.WhoIsWhoApplication;
 import com.tab.whoiswho.model.TeamMember;
 
 public class TeamMemberDetailsFragment extends Fragment {
-
-    private static final String TEAM_MEMBER_KEY = "TeamMember";
 
     public static TeamMemberDetailsFragment newInstance(TeamMember teamMember) {
         Bundle args = new Bundle();
@@ -25,9 +24,20 @@ public class TeamMemberDetailsFragment extends Fragment {
         return teamMemberDetailsFragment;
     }
 
+    private static final String TEAM_MEMBER_KEY = "TeamMember";
+    private TeamMember mTeamMember;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_team_member_details, container, false);
+
+
+        if(savedInstanceState == null) {
+            mTeamMember = getArguments().getParcelable(TEAM_MEMBER_KEY);
+        }else{
+            mTeamMember =  savedInstanceState.getParcelable(TEAM_MEMBER_KEY);
+        }
+
 
         TextView txtName = (TextView) view.findViewById(R.id.txtName);
         TextView txtJobTitle = (TextView) view.findViewById(R.id.txtJobTitle);
@@ -35,18 +45,21 @@ public class TeamMemberDetailsFragment extends Fragment {
         ImageView imgPhoto = (ImageView) view.findViewById(R.id.imgPhoto);
 
 
-        TeamMember teamMember = getArguments().getParcelable(TEAM_MEMBER_KEY);
 
-        txtName.setText(teamMember.getName());
-        txtJobTitle.setText(teamMember.getJobTitle());
-        txtBiography.setText(teamMember.getBiography());
-        imgPhoto.setTag(teamMember.getId());
-        ImageLoader imageLoader = new ImageLoader(getActivity());
-        imageLoader.loadImage(teamMember, imgPhoto);
+
+        txtName.setText(mTeamMember.getName());
+        txtJobTitle.setText(mTeamMember.getJobTitle());
+        txtBiography.setText(mTeamMember.getBiography());
+        imgPhoto.setTag(mTeamMember.getId());
+        ImageLoader imageLoader = WhoIsWhoApplication.getImageLoader();
+        imageLoader.loadImage(mTeamMember, imgPhoto);
 
 
         return view;
     }
 
-
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(TEAM_MEMBER_KEY, mTeamMember);
+    }
 }

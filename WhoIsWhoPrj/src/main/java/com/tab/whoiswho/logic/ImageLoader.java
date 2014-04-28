@@ -51,6 +51,11 @@ public class ImageLoader {
 
     }
 
+    public void clearCache(){
+        mImagesCache.clearCache();
+        mFileManager.deleteImageFiles();
+    }
+
     private boolean isImageViewReused(int teamMemberID, ImageView imageView) {
         int tag = (Integer) imageView.getTag();
         return tag != teamMemberID;

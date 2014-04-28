@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.tab.whoiswho.R;
 import com.tab.whoiswho.logic.ImageLoader;
+import com.tab.whoiswho.logic.WhoIsWhoApplication;
 import com.tab.whoiswho.model.TeamMember;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class TeamMemberListAdapter extends BaseAdapter {
 
 
     public TeamMemberListAdapter(Context context, List<TeamMember> teamMembers) {
-        mImageLoader = new ImageLoader(context);
+        mImageLoader = WhoIsWhoApplication.getImageLoader();
         mInflater = LayoutInflater.from(context);
         mTeamMembers = teamMembers;
     }

@@ -19,8 +19,8 @@ import android.widget.Toast;
 
 import com.tab.whoiswho.R;
 import com.tab.whoiswho.ddbb.DBManager;
-import com.tab.whoiswho.logic.FileManager;
-import com.tab.whoiswho.logic.ImagesCache;
+import com.tab.whoiswho.logic.ImageLoader;
+import com.tab.whoiswho.logic.WhoIsWhoApplication;
 import com.tab.whoiswho.model.TeamMember;
 import com.tab.whoiswho.parser.HtmlParser;
 import com.tab.whoiswho.utils.Debug;
@@ -29,14 +29,19 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.tab.whoiswho.utils.Constants.TEAM_MEMBER_LIST_URL;
 
 public class TeamMembersListFragment extends ListFragment {
 
+    private static final String TEAM_MEMBERS_KEY = "teamMembers";
     private static final int HTML_ERROR = 1;
     private static final int NETWORK_ERROR = 2;
+
+    private List<TeamMember> mTeamMembers;
+
 
     public interface TeamMembersListFragmentListener {
         public void onTeamMemberPressed(TeamMember teamMember);
@@ -50,10 +55,22 @@ public class TeamMembersListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        mParseTeamMembersTask = new ParseTeamMembersTask();
-        mParseTeamMembersTask.execute();
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (savedInstanceState == null) {
+            downloadTeamMembers();
+        } else {
+            mTeamMembers = savedInstanceState.getParcelableArrayList(TEAM_MEMBERS_KEY);
+            if (mTeamMembers == null) {
+                downloadTeamMembers();
+            } else {
+                fillListData();
+            }
+        }
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -71,7 +88,7 @@ public class TeamMembersListFragment extends ListFragment {
         super.onDetach();
         mListener = null;
 
-        if (mParseTeamMembersTask.getStatus() == AsyncTask.Status.RUNNING) {
+        if (mParseTeamMembersTask != null && mParseTeamMembersTask.getStatus() == AsyncTask.Status.RUNNING) {
             mParseTeamMembersTask.cancel(true);
         }
 
@@ -95,12 +112,9 @@ public class TeamMembersListFragment extends ListFragment {
 
         setListShown(false);
 
-        ImagesCache imagesCache = new ImagesCache();
-        imagesCache.clearCache();
-        FileManager fileManager =  new FileManager(getActivity());
-        fileManager.deleteImageFiles();
-        mParseTeamMembersTask = new ParseTeamMembersTask();
-        mParseTeamMembersTask.execute();
+        ImageLoader imageLoader = WhoIsWhoApplication.getImageLoader();
+        imageLoader.clearCache();
+        downloadTeamMembers();
 
         return true;
     }
@@ -112,8 +126,18 @@ public class TeamMembersListFragment extends ListFragment {
         }
     }
 
-    private void fillListData(List<TeamMember> teamMembers) {
-        ListAdapter adapter = new TeamMemberListAdapter(getActivity(), teamMembers);
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList(TEAM_MEMBERS_KEY, (ArrayList<TeamMember>) mTeamMembers);
+    }
+
+    private void downloadTeamMembers() {
+        mParseTeamMembersTask = new ParseTeamMembersTask();
+        mParseTeamMembersTask.execute();
+    }
+
+    private void fillListData() {
+        ListAdapter adapter = new TeamMemberListAdapter(getActivity(), mTeamMembers);
         setListAdapter(adapter);
         setListShown(true);
     }
@@ -165,7 +189,8 @@ public class TeamMembersListFragment extends ListFragment {
         protected void onPostExecute(List<TeamMember> teamMembers) {
 
             if (getActivity() != null) {
-                fillListData(teamMembers);
+                mTeamMembers = teamMembers;
+                fillListData();
             }
 
         }
