@@ -1,9 +1,6 @@
 package com.tab.whoiswho.ui;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,27 +9,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tab.whoiswho.R;
-import com.tab.whoiswho.ddbb.DBManager;
+import com.tab.whoiswho.logic.ImageLoader;
 import com.tab.whoiswho.model.TeamMember;
-import com.tab.whoiswho.utils.Debug;
-import com.tab.whoiswho.utils.Utils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.ref.WeakReference;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 
 public class TeamMemberListAdapter extends BaseAdapter {
 
+    private ImageLoader mImageLoader;
     private LayoutInflater mInflater;
     private List<TeamMember> mTeamMembers;
 
 
     public TeamMemberListAdapter(Context context, List<TeamMember> teamMembers) {
+        mImageLoader = new ImageLoader(context);
         mInflater = LayoutInflater.from(context);
         mTeamMembers = teamMembers;
     }
@@ -69,11 +59,8 @@ public class TeamMemberListAdapter extends BaseAdapter {
 
         TeamMember teamMember = mTeamMembers.get(position);
 
-        viewHolder.imgPhoto.setImageResource(R.drawable.photo_placeholder);
         viewHolder.imgPhoto.setTag(teamMember.getId());
-
-        new DownloadImageTask(mInflater.getContext(), teamMember, viewHolder.imgPhoto).execute(teamMember.getImageURI());
-
+        mImageLoader.loadImage(teamMember, viewHolder.imgPhoto);
 
         viewHolder.txtName.setText(teamMember.getName());
         viewHolder.txtJobTitle.setText(teamMember.getJobTitle());

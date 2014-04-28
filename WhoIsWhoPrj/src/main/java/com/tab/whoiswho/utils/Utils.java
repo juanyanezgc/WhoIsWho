@@ -1,5 +1,6 @@
 package com.tab.whoiswho.utils;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import java.io.IOException;
@@ -42,6 +43,14 @@ public class Utils {
         while ((count = is.read(bytes, 0, bufferSize)) != -1) {
             os.write(bytes, 0, count);
         }
+    }
+
+    public static long getBitmapBytesSize(Bitmap bitmap) {
+        if (bitmap == null) {
+            return 0;
+        }
+
+        return bitmap.getRowBytes() * bitmap.getHeight();
     }
 
 }

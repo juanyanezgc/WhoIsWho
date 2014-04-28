@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.tab.whoiswho.R;
 import com.tab.whoiswho.ddbb.DBManager;
+import com.tab.whoiswho.logic.FileManager;
+import com.tab.whoiswho.logic.ImagesCache;
 import com.tab.whoiswho.model.TeamMember;
 import com.tab.whoiswho.parser.HtmlParser;
 import com.tab.whoiswho.utils.Debug;
@@ -93,6 +95,10 @@ public class TeamMembersListFragment extends ListFragment {
 
         setListShown(false);
 
+        ImagesCache imagesCache = new ImagesCache();
+        imagesCache.clearCache();
+        FileManager fileManager =  new FileManager(getActivity());
+        fileManager.deleteImageFiles();
         mParseTeamMembersTask = new ParseTeamMembersTask();
         mParseTeamMembersTask.execute();
 
