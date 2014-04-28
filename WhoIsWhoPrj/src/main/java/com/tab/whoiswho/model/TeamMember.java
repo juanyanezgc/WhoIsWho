@@ -3,17 +3,26 @@ package com.tab.whoiswho.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * Represents a team member
+ */
 public class TeamMember implements Parcelable {
+
     private int id;
     private String name;
     private String jobTitle;
     private String biography;
     private String imageURI;
 
-    public TeamMember() {
-
-    };
-
+    /**
+     * Creates a new team member
+     *
+     * @param id        Team member's identifier
+     * @param name      Team member's name
+     * @param jobTitle  Team member's job title
+     * @param biography Team member's biography
+     * @param imageURI  URI for team member's photo
+     */
     public TeamMember(int id, String name, String jobTitle, String biography, String imageURI) {
         this.id = id;
         this.name = name;
@@ -23,7 +32,7 @@ public class TeamMember implements Parcelable {
     }
 
     private TeamMember(Parcel in) {
-        id =  in.readInt();
+        id = in.readInt();
         name = in.readString();
         jobTitle = in.readString();
         biography = in.readString();

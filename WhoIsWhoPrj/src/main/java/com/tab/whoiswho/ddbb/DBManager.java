@@ -6,11 +6,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-
 import com.tab.whoiswho.model.TeamMember;
 
 import java.util.List;
 
+/**
+ * Manages all the operations related to the database
+ */
 public class DBManager {
 
     private static final String DATABASE_NAME = "WhoIsWho.sqlite";
@@ -40,7 +42,7 @@ public class DBManager {
 
 	/* ============ SQL DROP SENTENCES ============ */
 
-    private static final String SQL_DROP_RESTAURANTS = "DROP TABLE IF EXISTS "
+    private static final String SQL_DROP_TEAM_MEMBERS = "DROP TABLE IF EXISTS "
             + TEAM_MEMBER_TABLE_NAME;
 
     private DataBaseHelper mDbHelper;
@@ -49,6 +51,11 @@ public class DBManager {
         mDbHelper = new DataBaseHelper(context);
     }
 
+    /**
+     * Saves a list of team members into the database
+     *
+     * @param teamMembers List of team members to save
+     */
     public void saveTeamMembers(List<TeamMember> teamMembers) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
@@ -73,7 +80,12 @@ public class DBManager {
 
     }
 
-    public void updateTeamMemberImageURI(TeamMember teamMember){
+    /**
+     * Updates the image URI for a team member
+     *
+     * @param teamMember Team member to change image URI to
+     */
+    public void updateTeamMemberImageURI(TeamMember teamMember) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         ContentValues args = new ContentValues();
@@ -86,11 +98,16 @@ public class DBManager {
         db.close();
     }
 
+    /**
+     * Retrieves all the team members saved in the database
+     *
+     * @return List with all the team members
+     */
     public List<TeamMember> getTeamMembers() {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
-        Cursor restaurantsCursor = db.rawQuery(SQL_SELECT_ALL, null);
-        return Mapper.mapRestaurants(restaurantsCursor);
+        Cursor teamMembersCursor = db.rawQuery(SQL_SELECT_ALL, null);
+        return Mapper.mapTeamMembers(teamMembersCursor);
     }
 
 
@@ -107,7 +124,7 @@ public class DBManager {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            db.execSQL(SQL_DROP_RESTAURANTS);
+            db.execSQL(SQL_DROP_TEAM_MEMBERS);
             onCreate(db);
         }
 

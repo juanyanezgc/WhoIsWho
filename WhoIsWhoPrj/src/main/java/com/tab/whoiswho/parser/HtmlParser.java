@@ -10,12 +10,21 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Parses html document
+ */
 public class HtmlParser {
 
     public static final String TEAM_MEMBERS_SECTION_KEY = "users";
     public static final String TEAM_MEMBER_KEY = "col";
     public static final String TEAM_MEMBER_IMAGE_URI_KEY = "src";
 
+    /**
+     * Parses a given html document
+     *
+     * @param htmlDocument Document to parse
+     * @return List with all parsed team members
+     */
     public static List<TeamMember> parseTeamMembers(Document htmlDocument) {
         Debug.logInfo("Parsing team member html");
 

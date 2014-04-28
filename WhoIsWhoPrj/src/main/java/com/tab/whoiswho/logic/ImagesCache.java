@@ -8,24 +8,47 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Implements a cache for team members images
+ */
 public class ImagesCache {
 
+    /**
+     * Cached images
+     */
     private Map<Integer, Bitmap> mCachedImages;
+    /**
+     * Current memory used by cached images
+     */
     private long mAllocatedMemory;
+    /**
+     * Max memory allowed for cached images
+     */
     private long mMemoryLimit;
 
 
     public ImagesCache() {
         mCachedImages = new LinkedHashMap<Integer, Bitmap>();
-        //use 25% of available heap size
         mMemoryLimit = Runtime.getRuntime().maxMemory() / 4;
 
     }
 
+    /**
+     * Gets a cached image if exists
+     *
+     * @param teamMemberID Identifier of the image
+     * @return Bitmap with the cached image
+     */
     public Bitmap getCachedImage(int teamMemberID) {
         return mCachedImages.containsKey(teamMemberID) ? mCachedImages.get(teamMemberID) : null;
     }
 
+    /**
+     * Stores a new image in the cache
+     *
+     * @param teamMemberID Identifier of the image
+     * @param cachedImage  Bitmap with the cached image
+     */
     public void putCachedImage(int teamMemberID, Bitmap cachedImage) {
 
 
@@ -40,11 +63,18 @@ public class ImagesCache {
 
     }
 
+    /**
+     * Clears the cache
+     */
     public void clearCache() {
         mCachedImages.clear();
         mAllocatedMemory = 0;
     }
 
+    /**
+     * Checks if there is enough memory available for a new image.
+     * In case there isn't memory available, removes the least recently accessed image
+     */
     private void checkAvailableMemory() {
         if (mAllocatedMemory > mMemoryLimit) {
 

@@ -24,6 +24,9 @@ import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Manages the load of team members images
+ */
 public class ImageLoader {
 
     private static final int MAX_THREADS = 5;
@@ -38,6 +41,12 @@ public class ImageLoader {
         mThreadPool = Executors.newFixedThreadPool(MAX_THREADS);
     }
 
+    /**
+     * Loads a team member image either from the cache or from the web
+     *
+     * @param teamMember Team member
+     * @param imageView  ImageView in which load the image to
+     */
     public void loadImage(TeamMember teamMember, ImageView imageView) {
 
         Bitmap bitmap = mImagesCache.getCachedImage(teamMember.getId());
@@ -53,11 +62,20 @@ public class ImageLoader {
 
     }
 
-    public void clearCache(){
+    /**
+     * Clears the cache
+     */
+    public void clearCache() {
         mImagesCache.clearCache();
         mFileManager.deleteImageFiles();
     }
 
+    /**
+     * Checks if the ImageView in which load the image to has been reused fo other team member by the adapter
+     *
+     * @param teamMemberID Identifier of the image
+     * @param imageView    ImageView in which load the image to
+     */
     private boolean isImageViewReused(int teamMemberID, ImageView imageView) {
         int tag = (Integer) imageView.getTag();
         return tag != teamMemberID;
@@ -92,7 +110,9 @@ public class ImageLoader {
 
         }
 
-
+        /**
+         * Loads a team member image either from web or from phone storage*
+         */
         private Bitmap loadBitmap() {
 
             File imageFile = mFileManager.getImageFile(mTeamMember.getId());
@@ -131,6 +151,12 @@ public class ImageLoader {
             return null;
         }
 
+        /**
+         * Decodes a bitmap
+         *
+         * @param imageFile File containing the image data
+         * @return Bitmap of the image
+         */
         private Bitmap decodeFile(File imageFile) {
 
             try {
@@ -150,6 +176,9 @@ public class ImageLoader {
         }
 
 
+        /**
+         * Loads a bitmap into the team member ImageView
+         */
         private class BitmapLoader implements Runnable {
             private Bitmap mImage;
             private ImageView mImageView;
@@ -167,7 +196,7 @@ public class ImageLoader {
                 }
 
                 if (mImage != null) {
-                    Animation fadeIn = AnimationUtils.loadAnimation(mImageView.getContext(),R.anim.fade_in_image);
+                    Animation fadeIn = AnimationUtils.loadAnimation(mImageView.getContext(), R.anim.fade_in_image);
                     mImageView.setImageBitmap(mImage);
                     mImageView.setAnimation(fadeIn);
                     fadeIn.start();
