@@ -83,6 +83,7 @@ public class TeamMemberDetailsFragment extends Fragment {
         if (item.getItemId() == android.R.id.home) {
             ActionBarActivity activity = (ActionBarActivity) getActivity();
             activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            activity.getSupportActionBar().setHomeButtonEnabled(false);
             FragmentManager fragmentManager = activity.getSupportFragmentManager();
             fragmentManager.popBackStack();
         }

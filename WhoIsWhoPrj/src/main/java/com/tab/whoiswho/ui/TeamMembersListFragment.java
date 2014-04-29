@@ -147,10 +147,14 @@ public class TeamMembersListFragment extends ListFragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case HTML_ERROR:
-                    Toast.makeText(getActivity(), R.string.parsing_error, Toast.LENGTH_LONG).show();
+                    if (getActivity() != null) {
+                        Toast.makeText(getActivity(), R.string.parsing_error, Toast.LENGTH_LONG).show();
+                    }
                     break;
                 case NETWORK_ERROR:
-                    Toast.makeText(getActivity(), R.string.no_internet, Toast.LENGTH_LONG).show();
+                    if (getActivity() != null) {
+                        Toast.makeText(getActivity(), R.string.no_internet, Toast.LENGTH_LONG).show();
+                    }
                     break;
             }
         }
