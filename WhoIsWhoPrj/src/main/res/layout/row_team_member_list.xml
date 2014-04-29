@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -16,9 +16,8 @@
         android:id="@+id/imgPhoto"
         android:layout_width="@dimen/photo_size"
         android:layout_height="@dimen/photo_size"
-        android:adjustViewBounds="true"
-        android:layout_gravity="center_vertical"
         android:layout_marginRight="@dimen/team_member_row_image_margin"
+        android:adjustViewBounds="true"
         android:src="@drawable/photo_placeholder" />
 
     <LinearLayout
@@ -30,16 +29,16 @@
         <com.tab.whoiswho.ui.WhoIsWhoTextView
             android:id="@+id/txtName"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:text="@string/dummy_text"
-            app:typeface="roboto_bold"/>
+            android:layout_height="wrap_content"
+            app:typeface="roboto_bold"
+            tools:text="@string/dummy_text" />
 
         <com.tab.whoiswho.ui.WhoIsWhoTextView
             android:id="@+id/txtJobTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="@string/dummy_text"
-            app:typeface="roboto_italic"/>
+            app:typeface="roboto_italic"
+            tools:text="@string/dummy_text" />
     </LinearLayout>
 
 </LinearLayout>

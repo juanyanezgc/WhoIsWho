@@ -2,6 +2,7 @@
 
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,7 +18,7 @@
         android:layout_marginTop="5dp"
         android:background="@color/divider_color" />
 
-    <TextView
+    <com.tab.whoiswho.ui.WhoIsWhoTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/gap_small"
@@ -26,13 +27,13 @@
         android:paddingTop="@dimen/gap_small"
         android:text="@string/details_fragment_biography"
         android:textSize="@dimen/biography_text_size"
-        android:textStyle="bold"/>
+        app:typeface="roboto_bold" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+        <com.tab.whoiswho.ui.WhoIsWhoTextView
             android:id="@+id/txtBiography"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

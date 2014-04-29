@@ -25,6 +25,7 @@ public class TypefaceManager {
 
         if (typeface == null){
             typeface = createTypeface(context,typefaceValue);
+            mTypefaces.put(typefaceValue,typeface);
         }
 
         return typeface;
