@@ -2,7 +2,10 @@ package com.tab.whoiswho.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -32,10 +35,10 @@ public class TeamMemberDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_team_member_details, container, false);
 
 
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             mTeamMember = getArguments().getParcelable(TEAM_MEMBER_KEY);
-        }else{
-            mTeamMember =  savedInstanceState.getParcelable(TEAM_MEMBER_KEY);
+        } else {
+            mTeamMember = savedInstanceState.getParcelable(TEAM_MEMBER_KEY);
         }
 
 
@@ -43,9 +46,6 @@ public class TeamMemberDetailsFragment extends Fragment {
         TextView txtJobTitle = (TextView) view.findViewById(R.id.txtJobTitle);
         TextView txtBiography = (TextView) view.findViewById(R.id.txtBiography);
         ImageView imgPhoto = (ImageView) view.findViewById(R.id.imgPhoto);
-
-
-
 
         txtName.setText(mTeamMember.getName());
         txtJobTitle.setText(mTeamMember.getJobTitle());
@@ -59,7 +59,34 @@ public class TeamMemberDetailsFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        setHasOptionsMenu(true);
+        ActionBarActivity hostActivity = (ActionBarActivity) getActivity();
+        hostActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mTeamMember = null;
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putParcelable(TEAM_MEMBER_KEY, mTeamMember);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+            ActionBarActivity activity = (ActionBarActivity) getActivity();
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            FragmentManager fragmentManager = activity.getSupportFragmentManager();
+            fragmentManager.popBackStack();
+        }
+
+        return true;
     }
 }
