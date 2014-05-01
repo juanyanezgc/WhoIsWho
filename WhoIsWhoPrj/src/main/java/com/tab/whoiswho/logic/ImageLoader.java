@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.tab.whoiswho.R;
 import com.tab.whoiswho.ddbb.DBManager;
 import com.tab.whoiswho.model.TeamMember;
+import com.tab.whoiswho.utils.Debug;
 import com.tab.whoiswho.utils.Utils;
 
 import java.io.File;
@@ -48,10 +49,16 @@ public class ImageLoader {
      * @param imageView  ImageView in which load the image to
      */
     public void loadImage(TeamMember teamMember, ImageView imageView) {
+        if (teamMember == null || imageView == null) {
+            throw new IllegalArgumentException("");
+        }
+
+        Debug.logDebug("Loading image for team member " + teamMember.getId());
 
         Bitmap bitmap = mImagesCache.getCachedImage(teamMember.getId());
 
         if (bitmap != null) {
+            Debug.logDebug("Image loaded from cache memory");
             imageView.setImageBitmap(bitmap);
         } else {
             ImageLoaderRunnable imageLoaderRunnable = new ImageLoaderRunnable(teamMember, imageView);
@@ -119,21 +126,25 @@ public class ImageLoader {
             Bitmap bitmap = decodeFile(imageFile);
 
             if (bitmap != null) {
+                Debug.logDebug("Image loaded from cache folder: " + mTeamMember.getImageURI());
                 return bitmap;
             }
 
             try {
+                Debug.logDebug("Loading image from url: " + mTeamMember.getImageURI());
                 Context context = mImageView.getContext();
 
                 URL url = new URL(mTeamMember.getImageURI());
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.connect();
+                Debug.logDebug("Image downloaded");
 
                 InputStream inputStream = httpURLConnection.getInputStream();
                 FileOutputStream outputStream = new FileOutputStream(imageFile);
                 Utils.copyStream(inputStream, outputStream);
                 inputStream.close();
                 outputStream.close();
+                Debug.logDebug("Image save to cache folder: " + imageFile.getPath());
                 bitmap = decodeFile(imageFile);
                 DBManager dbManager = new DBManager(context);
                 dbManager.updateTeamMemberImageURI(mTeamMember);
@@ -141,11 +152,11 @@ public class ImageLoader {
                 return bitmap;
 
             } catch (MalformedURLException e) {
-                e.printStackTrace();
+                Debug.logError(e.getMessage());
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                Debug.logError(e.getMessage());
             } catch (IOException e) {
-                e.printStackTrace();
+                Debug.logError(e.getMessage());
             }
 
             return null;
@@ -169,7 +180,7 @@ public class ImageLoader {
                 opt.inJustDecodeBounds = false;
                 return BitmapFactory.decodeStream(new FileInputStream(imageFile), null, opt);
             } catch (FileNotFoundException e) {
-
+                Debug.logError(e.getMessage());
             }
 
             return null;

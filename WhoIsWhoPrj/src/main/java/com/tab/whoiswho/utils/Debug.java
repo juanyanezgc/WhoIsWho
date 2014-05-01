@@ -1,7 +1,3 @@
-/**
- * Copyright (c) 2013 Sykehusapotekene i Midt Norge HF. All rights reserved. 
- */
-
 package com.tab.whoiswho.utils;
 
 import android.util.Log;
