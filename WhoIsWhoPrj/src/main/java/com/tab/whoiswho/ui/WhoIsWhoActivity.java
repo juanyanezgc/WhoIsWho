@@ -35,5 +35,6 @@ public class WhoIsWhoActivity extends ActionBarActivity implements TeamMembersLi
     public void onBackPressed() {
         super.onBackPressed();
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(false);
     }
 }

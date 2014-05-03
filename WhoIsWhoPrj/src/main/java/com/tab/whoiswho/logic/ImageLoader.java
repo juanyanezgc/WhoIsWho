@@ -3,6 +3,8 @@ package com.tab.whoiswho.logic;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -133,27 +135,31 @@ public class ImageLoader {
             }
 
             try {
-                Debug.logDebug("Loading image from url: " + mTeamMember.getImageURI());
                 Context context = mImageView.getContext();
+                ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
-                URL url = new URL(mTeamMember.getImageURI());
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.connect();
-                Debug.logDebug("Image downloaded");
+                if (networkInfo != null && networkInfo.isConnected()) {
+                    Debug.logDebug("Loading image from url: " + mTeamMember.getImageURI());
+                    URL url = new URL(mTeamMember.getImageURI());
+                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                    httpURLConnection.connect();
 
-                InputStream inputStream = httpURLConnection.getInputStream();
-                FileOutputStream outputStream = new FileOutputStream(imageFile);
-                Utils.copyStream(inputStream, outputStream);
-                inputStream.close();
-                outputStream.close();
-                Debug.logDebug("Image save to cache folder: " + imageFile.getPath());
-                mTeamMember.setImageURI(imageFile.getPath());
-                DBManager dbManager = new DBManager(context);
-                dbManager.updateTeamMemberImageURI(mTeamMember);
-                bitmap = decodeFile(imageFile);
+                    Debug.logDebug("Image downloaded");
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    FileOutputStream outputStream = new FileOutputStream(imageFile);
+                    Utils.copyStream(inputStream, outputStream);
+                    inputStream.close();
+                    outputStream.close();
 
+                    Debug.logDebug("Saving image to cache folder: " + imageFile.getPath());
+                    mTeamMember.setImageURI(imageFile.getPath());
+                    DBManager dbManager = new DBManager(context);
+                    dbManager.updateTeamMemberImageURI(mTeamMember);
+                    bitmap = decodeFile(imageFile);
 
-                return bitmap;
+                    return bitmap;
+                }
 
             } catch (MalformedURLException e) {
                 Debug.logError(e.getMessage());
