@@ -18,14 +18,14 @@ public class TypefaceManager {
     private static final String ROBOTO_BOLD_ITALIC_ASSET = "Roboto-BoldItalic.ttf";
 
 
-    private static final Map<Integer,Typeface> mTypefaces = new HashMap<Integer, Typeface>(4);
+    private static final Map<Integer, Typeface> mTypefaces = new HashMap<Integer, Typeface>(4);
 
-    public static Typeface obtainTypeface(Context context, int typefaceValue){
+    public static Typeface obtainTypeface(Context context, int typefaceValue) {
         Typeface typeface = mTypefaces.get(typefaceValue);
 
-        if (typeface == null){
-            typeface = createTypeface(context,typefaceValue);
-            mTypefaces.put(typefaceValue,typeface);
+        if (typeface == null) {
+            typeface = createTypeface(context, typefaceValue);
+            mTypefaces.put(typefaceValue, typeface);
         }
 
         return typeface;
@@ -35,18 +35,18 @@ public class TypefaceManager {
 
         Typeface typeface = null;
 
-        switch (typefaceValue){
+        switch (typefaceValue) {
             case ROBOTO_REGULAR:
-                typeface = Typeface.createFromAsset(context.getAssets(),ROBOTO_REGULAR_ASSET);
+                typeface = Typeface.createFromAsset(context.getAssets(), ROBOTO_REGULAR_ASSET);
                 break;
             case ROBOTO_BOLD:
-                typeface = Typeface.createFromAsset(context.getAssets(),ROBOTO_BOLD_ASSET);
+                typeface = Typeface.createFromAsset(context.getAssets(), ROBOTO_BOLD_ASSET);
                 break;
             case ROBOTO_ITALIC:
-                typeface = Typeface.createFromAsset(context.getAssets(),ROBOTO_ITALIC_ASSET);
+                typeface = Typeface.createFromAsset(context.getAssets(), ROBOTO_ITALIC_ASSET);
                 break;
             case ROBOTO_BOLD_ITALIC:
-                typeface = Typeface.createFromAsset(context.getAssets(),ROBOTO_BOLD_ITALIC_ASSET);
+                typeface = Typeface.createFromAsset(context.getAssets(), ROBOTO_BOLD_ITALIC_ASSET);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown typeface attribute value " + typefaceValue);

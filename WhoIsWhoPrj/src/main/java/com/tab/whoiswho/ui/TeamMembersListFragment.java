@@ -170,7 +170,7 @@ public class TeamMembersListFragment extends ListFragment {
 
             if (networkInfo != null && networkInfo.isConnected()) {
                 try {
-                    Debug.logInfo("Downloading team member html");
+                    Debug.logInfo("Downloading team member html from: " + TEAM_MEMBER_LIST_URL);
                     Document document = Jsoup.connect(TEAM_MEMBER_LIST_URL).get();
                     List<TeamMember> teamMembers = HtmlParser.parseTeamMembers(document);
                     dbManager.saveTeamMembers(teamMembers);

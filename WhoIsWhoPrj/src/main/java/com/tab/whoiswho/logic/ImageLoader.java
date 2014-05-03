@@ -50,7 +50,7 @@ public class ImageLoader {
      */
     public void loadImage(TeamMember teamMember, ImageView imageView) {
         if (teamMember == null || imageView == null) {
-            throw new IllegalArgumentException("");
+            throw new IllegalArgumentException("teamMember and imageView cannot be null");
         }
 
         Debug.logDebug("Loading image for team member " + teamMember.getId());
@@ -58,7 +58,7 @@ public class ImageLoader {
         Bitmap bitmap = mImagesCache.getCachedImage(teamMember.getId());
 
         if (bitmap != null) {
-            Debug.logDebug("Image loaded from cache memory");
+            Debug.logDebug("Image loaded from cache memory for team member " + teamMember.getId());
             imageView.setImageBitmap(bitmap);
         } else {
             ImageLoaderRunnable imageLoaderRunnable = new ImageLoaderRunnable(teamMember, imageView);
@@ -123,9 +123,11 @@ public class ImageLoader {
         private Bitmap loadBitmap() {
 
             File imageFile = mFileManager.getImageFile(mTeamMember.getId());
-            Bitmap bitmap = decodeFile(imageFile);
 
-            if (bitmap != null) {
+            Bitmap bitmap;
+
+            if (imageFile.exists()) {
+                bitmap = decodeFile(imageFile);
                 Debug.logDebug("Image loaded from cache folder: " + mTeamMember.getImageURI());
                 return bitmap;
             }
@@ -145,9 +147,11 @@ public class ImageLoader {
                 inputStream.close();
                 outputStream.close();
                 Debug.logDebug("Image save to cache folder: " + imageFile.getPath());
-                bitmap = decodeFile(imageFile);
+                mTeamMember.setImageURI(imageFile.getPath());
                 DBManager dbManager = new DBManager(context);
                 dbManager.updateTeamMemberImageURI(mTeamMember);
+                bitmap = decodeFile(imageFile);
+
 
                 return bitmap;
 

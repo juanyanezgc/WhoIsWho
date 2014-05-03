@@ -13,7 +13,7 @@ public class WhoIsWhoApplication extends Application {
     }
 
 
-    public static ImageLoader getImageLoader(){
+    public static ImageLoader getImageLoader() {
         return mImageLoader;
     }
 }

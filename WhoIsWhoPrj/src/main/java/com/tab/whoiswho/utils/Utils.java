@@ -54,12 +54,11 @@ public class Utils {
     }
 
 
-    public static float calculateElapsedTime(long startTime, long endTime){
+    public static float calculateElapsedTime(long startTime, long endTime) {
         long elapsedTime = endTime - startTime;
 
         return elapsedTime / 1000f;
     }
-
 
 
 }

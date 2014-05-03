@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.tab.whoiswho.model.TeamMember;
+import com.tab.whoiswho.utils.Debug;
 
 import java.util.List;
 
@@ -57,6 +58,7 @@ public class DBManager {
      * @param teamMembers List of team members to save
      */
     public void saveTeamMembers(List<TeamMember> teamMembers) {
+        Debug.logDebug("Saving team members in the database");
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         db.beginTransaction();
@@ -86,6 +88,7 @@ public class DBManager {
      * @param teamMember Team member to change image URI to
      */
     public void updateTeamMemberImageURI(TeamMember teamMember) {
+        Debug.logDebug("Updating team member " + teamMember.getId() + " imageURI: " + teamMember.getImageURI());
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         ContentValues args = new ContentValues();
@@ -104,6 +107,7 @@ public class DBManager {
      * @return List with all the team members
      */
     public List<TeamMember> getTeamMembers() {
+        Debug.logDebug("Loading data from database");
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         Cursor teamMembersCursor = db.rawQuery(SQL_SELECT_ALL, null);

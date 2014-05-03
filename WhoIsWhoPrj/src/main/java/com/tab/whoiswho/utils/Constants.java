@@ -2,7 +2,7 @@ package com.tab.whoiswho.utils;
 
 public class Constants {
 
-    private Constants(){
+    private Constants() {
 
     }
 
